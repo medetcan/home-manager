@@ -121,6 +121,7 @@
         name = "Medet Can Akus";
       };
       init.defaultBranch = "main";
+      push.autoSetupRemote = true;
       core = {
         editor = "nvim";
       };
