@@ -12,7 +12,6 @@
       allowUnfreePredicate = pkg:
         builtins.elem (pkgs.lib.getName pkg) [
          "claude-code"
-         "gemini-cli"
         ];
     };
 
@@ -31,7 +30,6 @@
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
     pkgs.devenv
-    pkgs.gemini-cli
     pkgs.claude-code
     pkgs.secretspec
     pkgs.nodejs
@@ -102,7 +100,6 @@
   '';
   programs.zsh.enable = true;
   programs.zsh.autosuggestion.enable = true;
-
   programs.zsh.initContent = ''
     export PATH="$HOME/develop/flutter/bin:$PATH";
     export PATH="$PATH":"$HOME/.pub-cache/bin";
@@ -116,22 +113,20 @@
   programs.git = {
     enable = true;
     settings = {
-      user = {
-        email = "medet@canakus.com";
-        name = "Medet Can Akus";
-      };
+      user.email = "medet@canakus.com";
+      user.name ="Medet Can Akus";
       init.defaultBranch = "main";
       push.autoSetupRemote = true;
-      core = {
-        editor = "nvim";
-      };
-      pull = {
-        rebase = true;
-      };
+      core.editor = "nvim";
+      pull.rebase = true;
     };
     ignores = [".devenv" ".direnv" "**/.claude/settings.local.json"];
   };
   programs.starship.enable = true;
   programs.starship.enableBashIntegration = true;
   programs.starship.enableZshIntegration = true;
+  programs.gh.enable = true;
+  programs.gh-dash.enable = true;
+  programs.gemini-cli.enable = true;
+  programs.gemini-cli.defaultModel = "gemini-3.1-pro-preview";
 }
