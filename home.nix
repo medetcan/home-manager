@@ -129,4 +129,11 @@
   programs.gh-dash.enable = true;
   programs.gemini-cli.enable = true;
   programs.gemini-cli.defaultModel = "gemini-3.1-pro-preview";
+  programs.bat.enable = true;
+  programs.zoxide.enable = true;
+  programs.zoxide.enableBashIntegration = true;
+  programs.zoxide.enableZshIntegration = true;
+  programs.fzf.enable = true;
+  programs.fzf.enableBashIntegration = true;
+  programs.fzf.enableZshIntegration = true;
 }
