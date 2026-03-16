@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 
 {
   imports = [
@@ -29,12 +29,13 @@
   home.packages = [
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
-    pkgs.devenv
+    inputs.devenv.packages.${pkgs.system}.default
     pkgs.claude-code
     pkgs.secretspec
     pkgs.nodejs
     pkgs.nodePackages.yarn
     pkgs.nodePackages.pnpm
+    pkgs.nixfmt-rfc-style
 
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
@@ -110,6 +111,7 @@
     enableBashIntegration = true;
     enableZshIntegration = true;
   };
+  programs.direnv.nix-direnv.enable = true;
   programs.git = {
     enable = true;
     settings = {
