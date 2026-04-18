@@ -2,6 +2,7 @@
   config,
   pkgs,
   inputs,
+  profile,
   ...
 }:
 
@@ -9,11 +10,12 @@
   imports = [
     ./neovim.nix
     ./gemini.nix
+    ./git.nix
   ];
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
-  home.username = "can";
-  home.homeDirectory = "/Users/can";
+  home.username = profile.username;
+  home.homeDirectory = profile.homeDirectory;
   nixpkgs.config = {
     allowUnfreePredicate =
       pkg:
@@ -117,22 +119,6 @@
     enableZshIntegration = true;
   };
   programs.direnv.nix-direnv.enable = true;
-  programs.git = {
-    enable = true;
-    settings = {
-      user.email = "medet@canakus.com";
-      user.name = "Medet Can Akus";
-      init.defaultBranch = "main";
-      push.autoSetupRemote = true;
-      core.editor = "nvim";
-      pull.rebase = true;
-    };
-    ignores = [
-      ".devenv"
-      ".direnv"
-      "**/.claude/settings.local.json"
-    ];
-  };
   programs.starship.enable = true;
   programs.starship.enableBashIntegration = true;
   programs.starship.enableZshIntegration = true;

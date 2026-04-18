@@ -15,18 +15,26 @@
     let
       system = "aarch64-darwin";
       pkgs = nixpkgs.legacyPackages.${system};
-    in
-    {
-      homeConfigurations."can" = home-manager.lib.homeManagerConfiguration {
+
+      mkHome = profile: home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
 
-        extraSpecialArgs = { inherit inputs; };
-        # Specify your home configuration modules here, for example,
-        # the path to your home.nix.
+        extraSpecialArgs = { inherit inputs profile; };
         modules = [ ./home.nix ];
-
-        # Optionally use extraSpecialArgs
-        # to pass through arguments to home.nix
+      };
+    in
+    {
+      homeConfigurations = {
+        "personal" = mkHome {
+          username = "can";
+          homeDirectory = "/Users/can";
+          email = "medet@canakus.com";
+        };
+        "work" = mkHome {
+          username = "medet.akus";
+          homeDirectory = "/Users/medet.akus";
+          email = "medet.akus@axelspringer.com";
+        };
       };
     };
 }
