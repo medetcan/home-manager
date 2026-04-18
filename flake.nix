@@ -4,7 +4,6 @@
   inputs = {
     # Specify the source of Home Manager and Nixpkgs.
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    devenv.url = "github:cachix/devenv";
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -12,7 +11,7 @@
   };
 
   outputs =
-    inputs@{ nixpkgs, home-manager, devenv, ... }:
+    inputs@{ nixpkgs, home-manager, ... }:
     let
       system = "aarch64-darwin";
       pkgs = nixpkgs.legacyPackages.${system};

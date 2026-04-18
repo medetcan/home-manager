@@ -1,19 +1,27 @@
-{ config, pkgs, inputs, ... }:
+{
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
 
 {
   imports = [
     ./neovim.nix
+    ./gemini.nix
   ];
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = "can";
   home.homeDirectory = "/Users/can";
   nixpkgs.config = {
-      allowUnfreePredicate = pkg:
-        builtins.elem (pkgs.lib.getName pkg) [
-         "claude-code"
-        ];
-    };
+    allowUnfreePredicate =
+      pkg:
+      builtins.elem (pkgs.lib.getName pkg) [
+        "claude-code"
+        "rust-rover"
+      ];
+  };
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
@@ -22,21 +30,21 @@
   # You should not change this value, even if you update Home Manager. If you do
   # want to update the value, then make sure to first check the Home Manager
   # release notes.
-  home.stateVersion = "25.11"; # Please read the comment before changing.
+  home.stateVersion = "26.05"; # Please read the comment before changing.
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = [
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
-    inputs.devenv.packages.${pkgs.system}.default
+    pkgs.devenv
     pkgs.claude-code
     pkgs.secretspec
     pkgs.nodejs
-    pkgs.nodePackages.yarn
-    pkgs.nodePackages.pnpm
-    pkgs.nixfmt-rfc-style
-
+    pkgs.yarn
+    pkgs.pnpm
+    pkgs.nixfmt
+    pkgs.jetbrains.rust-rover
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
@@ -70,6 +78,8 @@
 
   home.sessionPath = [
     "${config.home.homeDirectory}/.npm-global/bin"
+    "${config.home.homeDirectory}/develop/flutter/bin"
+    "${config.home.homeDirectory}/.pub-cache/bin"
   ];
 
   # Home Manager can also manage your environment variables through
@@ -95,15 +105,10 @@
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
   programs.bash.enable = true;
-  programs.bash.bashrcExtra = ''
-    export PATH="$HOME/develop/flutter/bin:$PATH";
-    export PATH="$PATH":"$HOME/.pub-cache/bin";
-  '';
   programs.zsh.enable = true;
   programs.zsh.autosuggestion.enable = true;
+  programs.zsh.syntaxHighlighting.enable = true;
   programs.zsh.initContent = ''
-    export PATH="$HOME/develop/flutter/bin:$PATH";
-    export PATH="$PATH":"$HOME/.pub-cache/bin";
     bindkey -v;
   '';
   programs.direnv = {
@@ -116,21 +121,23 @@
     enable = true;
     settings = {
       user.email = "medet@canakus.com";
-      user.name ="Medet Can Akus";
+      user.name = "Medet Can Akus";
       init.defaultBranch = "main";
       push.autoSetupRemote = true;
       core.editor = "nvim";
       pull.rebase = true;
     };
-    ignores = [".devenv" ".direnv" "**/.claude/settings.local.json"];
+    ignores = [
+      ".devenv"
+      ".direnv"
+      "**/.claude/settings.local.json"
+    ];
   };
   programs.starship.enable = true;
   programs.starship.enableBashIntegration = true;
   programs.starship.enableZshIntegration = true;
   programs.gh.enable = true;
   programs.gh-dash.enable = true;
-  programs.gemini-cli.enable = true;
-  programs.gemini-cli.defaultModel = "gemini-3.1-pro-preview";
   programs.bat.enable = true;
   programs.zoxide.enable = true;
   programs.zoxide.enableBashIntegration = true;

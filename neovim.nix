@@ -2,6 +2,8 @@
 
 {
   programs.neovim = {
+    withPython3 = true;
+    withRuby = true;
     enable = true;
     defaultEditor = true;
     viAlias = true;
